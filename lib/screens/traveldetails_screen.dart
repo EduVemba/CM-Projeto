@@ -10,6 +10,13 @@ class TravelDetails extends StatefulWidget {
 class _TravelDetailsState extends State<TravelDetails> {
   final _noteController = TextEditingController();
 
+  int _currentRating = 3; // Valor inicial
+  int _hoverIndex = -1;
+  int _currentIndex = 1;
+
+  final List<String> _selectedHighlights = ['Gastronomia', 'Arquitetura'];
+  final List<String> _allHighlights = ['Gastronomia', 'Arquitetura', 'Cultura', 'Natureza'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,22 +29,17 @@ class _TravelDetailsState extends State<TravelDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 18,
-                        backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=1'),
-                      ),
-                    ],
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=1'),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   const Text(
                     'Berlin, Germany',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w400),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -56,92 +58,117 @@ class _TravelDetailsState extends State<TravelDetails> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35),
-                  ),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35)),
                 ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 30),
-                      
-                      // RANK
-                      const Text('RANK', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(5, (index) => 
-                          const Icon(Icons.star_border, size: 40, color: Colors.black87)
-                        ),
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      const Text('DESTAQUES', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
-                      const SizedBox(height: 15),
-                      Wrap(
-                        spacing: 10,
-                        children: [
-                          _buildChip('Gastronomia'),
-                          _buildChip('Arquitetura'),
-                        ],
-                      ),
-
-                      const SizedBox(height: 40),
-
-                      const Text('NOTA', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
-                      const SizedBox(height: 15),
-                      TextField(
-                        controller: _noteController,
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                          hintText: 'Descrição',
-                          hintStyle: const TextStyle(color: Colors.black26),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.black12),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Colors.black12),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF27A87A),
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 15),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                child: ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(overscroll: false),
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        
+                        const Text('RANK', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(5, (index) {
+                            final int starValue = index + 1;
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (_currentRating == starValue) {
+                                    _currentRating = 0; // Desmarca se clicar na mesma
+                                  } else {
+                                    _currentRating = starValue;
+                                  }
+                                });
+                              },
+                              child: Icon(
+                                index < _currentRating ? Icons.star : Icons.star_border,
+                                size: 40,
+                                color: index < _currentRating ? Colors.black87 : Colors.black26,
                               ),
-                              child: const Text('EDITAR'),
+                            );
+                          }),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        const Text('DESTAQUES', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
+                        const SizedBox(height: 15),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: _allHighlights.map((highlight) {
+                            final bool isSelected = _selectedHighlights.contains(highlight);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (isSelected) {
+                                    _selectedHighlights.remove(highlight);
+                                  } else {
+                                    _selectedHighlights.add(highlight);
+                                  }
+                                });
+                              },
+                              child: _buildChip(highlight, isSelected),
+                            );
+                          }).toList(),
+                        ),
+
+                        const SizedBox(height: 40),
+
+                        const Text('NOTA', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
+                        const SizedBox(height: 15),
+                        TextField(
+                          controller: _noteController,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            hintText: 'Descrição',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.black12),
                             ),
                           ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF2A2A2A),
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 15),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF27A87A),
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  elevation: 0,
+                                ),
+                                child: const Text('EDITAR'),
                               ),
-                              child: const Text('REMOVER'),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF2A2A2A),
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  elevation: 0,
+                                ),
+                                child: const Text('REMOVER'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -153,10 +180,10 @@ class _TravelDetailsState extends State<TravelDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildNavItem(Icons.language_outlined, 'Home', false),
-                  _buildNavItem(Icons.folder_open_outlined, 'Travels', true),
-                  _buildNavItem(Icons.people_outline, 'Connections', false),
-                  _buildNavItem(Icons.person_outline, 'Perfil', false),
+                  _buildNavItem(Icons.language_outlined, 'Home', 0),
+                  _buildNavItem(Icons.folder_open_outlined, 'Travels', 1),
+                  _buildNavItem(Icons.people_outline, 'Connections', 2),
+                  _buildNavItem(Icons.person_outline, 'Perfil', 3),
                 ],
               ),
             ),
@@ -166,32 +193,62 @@ class _TravelDetailsState extends State<TravelDetails> {
     );
   }
 
-  Widget _buildChip(String label) {
-    return Container(
+  Widget _buildChip(String label, bool isSelected) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF27A87A),
+        color: isSelected ? const Color(0xFF27A87A) : const Color(0xFFF2F2F2),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.check, color: Colors.white, size: 16),
+          Icon(
+            isSelected ? Icons.check : Icons.add, 
+            color: isSelected ? Colors.white : Colors.black38, 
+            size: 16
+          ),
           const SizedBox(width: 4),
-          Text(label, style: const TextStyle(color: Colors.white, fontSize: 13)),
+          Text(
+            label, 
+            style: TextStyle(
+              color: isSelected ? Colors.white : Colors.black38, 
+              fontSize: 13,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isSelected) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: Colors.black54, size: 26),
-        const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 10, color: Colors.black)),
-      ],
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    final bool isHovered = _hoverIndex == index;
+    final bool isSelected = _currentIndex == index;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hoverIndex = index),
+      onExit: (_) => setState(() => _hoverIndex = -1),
+      child: GestureDetector(
+        onTap: () => setState(() => _currentIndex = index),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+              decoration: BoxDecoration(
+                color: (isSelected || isHovered) ? const Color(0xFFE2D6E8) : Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(icon, color: Colors.black87, size: 26),
+            ),
+            const SizedBox(height: 4),
+            Text(label, style: const TextStyle(fontSize: 10, color: Colors.black)),
+          ],
+        ),
+      ),
     );
   }
 }

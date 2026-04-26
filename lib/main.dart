@@ -32,7 +32,7 @@ class SmartTravelApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF3DBE7A)),
         useMaterial3: true,
       ),
-      home: AddRankingScreen(),
+      home: MyTravels(),
     );
   }
 }
