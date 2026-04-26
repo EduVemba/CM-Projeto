@@ -65,7 +65,6 @@ Widget build(BuildContext context) {
         padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 48.0),
         child: Column(
           children: [
-            // ── Título e subtítulo centrados ──
             Expanded(
               child: Center(
                 child: Column(
@@ -107,7 +106,6 @@ Widget build(BuildContext context) {
               ),
             ),
 
-            // ── Botão pequeno e centrado ──
             FadeTransition(
               opacity: _fadeButton,
               child: SizedBox(
