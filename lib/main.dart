@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto/screens/landing_screen.dart';
 import 'package:projeto/screens/map_screen.dart';
+import 'package:projeto/screens/mytravels_screen.dart';
 import 'package:projeto/screens/preferences_screen.dart';
 import 'package:projeto/screens/profile_screen.dart';
 import 'package:projeto/screens/register_screen.dart';
@@ -29,7 +30,7 @@ class SmartTravelApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF3DBE7A)),
         useMaterial3: true,
       ),
-      home: ProfileScreen(), 
+      home: MyTravels(),
     );
   }
 }
