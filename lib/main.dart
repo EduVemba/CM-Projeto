@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/screens/landing_screen.dart';
+import 'package:projeto/screens/session/landing_screen.dart';
 
 
 void main() {
