@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/screens/session/preferences_screen.dart';
+import 'package:projeto/components/session_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -167,28 +169,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         const SizedBox(height: 28),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3DBE7A),
-                              foregroundColor: Colors.black,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: const Text(
-                              'Criar Conta',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
+                        const SessionButton(
+                          text: 'Continuar',
+                          backgroundColor: Color(0xFF3DBE7A),
+                          foregroundColor: Colors.black,
+                          nextScreen: PreferencesScreen(),
                         ),
                         const SizedBox(height: 24),
                         Row(

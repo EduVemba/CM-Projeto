@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/screens/session/register_screen.dart';
+import 'package:projeto/components/session_button.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -108,28 +110,13 @@ Widget build(BuildContext context) {
 
             FadeTransition(
               opacity: _fadeButton,
-              child: SizedBox(
+              child: const SessionButton(
+                text: 'Começar',
+                backgroundColor: Color(0xFF1A1A1A),
+                foregroundColor: Colors.white,
+                nextScreen: RegisterScreen(),
                 width: 160,
                 height: 46,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1A1A1A),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Começar',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.3,
-                    ),
-                  ),
-                ),
               ),
             ),
           ],

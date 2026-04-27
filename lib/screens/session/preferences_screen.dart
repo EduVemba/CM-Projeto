@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/screens/home/map_screen.dart';
+import 'package:projeto/components/session_button.dart';
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({super.key});
@@ -154,29 +156,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         }).toList(),
                       ),
                       const SizedBox(height: 36),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // TODO
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF3DBE7A),
-                            foregroundColor: Colors.black,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: const Text(
-                            'Salvar',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
+                      SessionButton(
+                        text: 'Começar',
+                        backgroundColor: const Color(0xFF3DBE7A),
+                        foregroundColor: Colors.black,
+                        nextScreen: const MapScreen(),
                       ),
                       const SizedBox(height: 12),
                     ],
