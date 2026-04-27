@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/screens/home/map_screen.dart';
+import 'package:projeto/screens/main_wrapper.dart';
 import 'package:projeto/components/session_button.dart';
 
 class PreferencesScreen extends StatefulWidget {
@@ -160,7 +160,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                         text: 'Começar',
                         backgroundColor: const Color(0xFF3DBE7A),
                         foregroundColor: Colors.black,
-                        nextScreen: const MapScreen(),
+                        nextScreen: const MainWrapper(),
                       ),
                       const SizedBox(height: 12),
                     ],

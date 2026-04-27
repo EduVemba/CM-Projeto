@@ -5,7 +5,8 @@ import '../travel/mytravels_screen.dart';
 import '../connections/connections_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final bool isWrapped;
+  const ProfileScreen({super.key, this.isWrapped = false});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -16,6 +17,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _onItemTapped(int index) {
     if (index == _currentIndex) return;
+    if (widget.isWrapped) return;
 
     Widget nextScreen;
     switch (index) {
@@ -50,6 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF2A2A2A),
       body: SafeArea(
+        bottom: !widget.isWrapped,
         child: Column(
           children: [
             Container(
@@ -107,10 +110,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
 
-            CustomNavbar(
-              currentIndex: _currentIndex,
-              onItemTapped: _onItemTapped,
-            ),
+            if (!widget.isWrapped)
+              CustomNavbar(
+                currentIndex: _currentIndex,
+                onItemTapped: _onItemTapped,
+              ),
           ],
         ),
       ),

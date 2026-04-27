@@ -5,7 +5,8 @@ import '../connections/connections_screen.dart';
 import '../perfil/profile_screen.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final bool isWrapped;
+  const MapScreen({super.key, this.isWrapped = false});
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -23,6 +24,9 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onItemTapped(int index) {
     if (index == _currentIndex) return;
+    
+    // Se estiver no Wrapper, não fazemos nada aqui (o Wrapper controla)
+    if (widget.isWrapped) return;
 
     Widget nextScreen;
     switch (index) {
@@ -57,6 +61,7 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF3DBE7A),
       body: SafeArea(
+        bottom: !widget.isWrapped, // Se estiver no wrapper, a navbar externa cuida do bottom padding
         child: Column(
           children: [
             Padding(
@@ -173,10 +178,11 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
 
-            CustomNavbar(
-              currentIndex: _currentIndex,
-              onItemTapped: _onItemTapped,
-            ),
+            if (!widget.isWrapped)
+              CustomNavbar(
+                currentIndex: _currentIndex,
+                onItemTapped: _onItemTapped,
+              ),
           ],
         ),
       ),

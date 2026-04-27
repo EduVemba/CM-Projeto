@@ -5,7 +5,8 @@ import '../connections/connections_screen.dart';
 import '../perfil/profile_screen.dart';
 
 class MyTravels extends StatefulWidget {
-  const MyTravels({super.key});
+  final bool isWrapped;
+  const MyTravels({super.key, this.isWrapped = false});
 
   @override
   State<MyTravels> createState() => _MyTravelsState();
@@ -21,6 +22,7 @@ class _MyTravelsState extends State<MyTravels> {
 
   void _onItemTapped(int index) {
     if (index == _currentIndex) return;
+    if (widget.isWrapped) return;
 
     Widget nextScreen;
     switch (index) {
@@ -55,7 +57,7 @@ class _MyTravelsState extends State<MyTravels> {
     return Scaffold(
       backgroundColor: const Color(0xFF3DBE7A),
       body: SafeArea(
-        bottom: false,
+        bottom: !widget.isWrapped,
         child: Column(
           children: [
             Padding(
@@ -119,10 +121,11 @@ class _MyTravelsState extends State<MyTravels> {
               ),
             ),
 
-            CustomNavbar(
-              currentIndex: _currentIndex,
-              onItemTapped: _onItemTapped,
-            ),
+            if (!widget.isWrapped)
+              CustomNavbar(
+                currentIndex: _currentIndex,
+                onItemTapped: _onItemTapped,
+              ),
           ],
         ),
       ),
