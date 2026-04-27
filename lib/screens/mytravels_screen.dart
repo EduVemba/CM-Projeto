@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/navbar.dart';
 
 class MyTravels extends StatefulWidget {
   const MyTravels({super.key});
@@ -9,7 +10,6 @@ class MyTravels extends StatefulWidget {
 
 class _MyTravelsState extends State<MyTravels> {
   int _currentIndex = 1;
-  int _hoverIndex = -1;
 
   final Map<String, int> _travelRatings = {
     'BRL': 0,
@@ -85,18 +85,9 @@ class _MyTravelsState extends State<MyTravels> {
               ),
             ),
 
-            Container(
-              decoration: const BoxDecoration(color: Color(0xFFF2EAF5)),
-              padding: const EdgeInsets.only(top: 10, bottom: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavItem(Icons.language_outlined, 'Home', 0),
-                  _buildNavItem(Icons.folder_open_outlined, 'Travels', 1),
-                  _buildNavItem(Icons.people_outline, 'Connections', 2),
-                  _buildNavItem(Icons.person_outline, 'Perfil', 3),
-                ],
-              ),
+            CustomNavbar(
+              currentIndex: _currentIndex,
+              onItemTapped: (index) => setState(() => _currentIndex = index),
             ),
           ],
         ),
@@ -160,45 +151,5 @@ class _MyTravelsState extends State<MyTravels> {
 
   Widget _buildDivider() {
     return const Divider(height: 1, thickness: 1, color: Color(0xFFEEEEEE), indent: 20, endIndent: 20);
-  }
-
-  Widget _buildNavItem(IconData icon, String label, int index) {
-    final bool isHovered = _hoverIndex == index;
-    final bool isSelected = _currentIndex == index;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hoverIndex = index),
-      onExit: (_) => setState(() => _hoverIndex = -1),
-      child: GestureDetector(
-        onTap: () => setState(() => _currentIndex = index),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              decoration: BoxDecoration(
-                color: (isSelected || isHovered) ? const Color(0xFFE2D6E8) : Colors.transparent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Icon(
-                icon,
-                size: 26,
-                color: (isSelected || isHovered) ? Colors.black : Colors.black54,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w400,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

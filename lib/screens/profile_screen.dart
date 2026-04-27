@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/navbar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -72,88 +73,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
 
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavItem(icon: Icons.language, label: 'Home', index: 0),
-                  _buildNavItem(icon: Icons.luggage_outlined, label: 'Travels', index: 1),
-                  _buildNavItem(icon: Icons.people_outline, label: 'Connections', index: 2),
-                  _buildNavItem(icon: Icons.person_outline, label: 'Perfil', index: 3),
-                ],
-              ),
+            CustomNavbar(
+              currentIndex: _currentIndex,
+              onItemTapped: (index) => setState(() => _currentIndex = index),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildStat(String value, String label) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: Colors.white38,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDivider() {
-    return Container(
-      height: 36,
-      width: 1,
-      color: Colors.white12,
-    );
-  }
-
-  Widget _buildNavItem({
-    required IconData icon,
-    required String label,
-    required int index,
-  }) {
-    final selected = _currentIndex == index;
-    return GestureDetector(
-      onTap: () => setState(() => _currentIndex = index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 24,
-            color: selected ? const Color(0xFF3DBE7A) : Colors.black45,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              color: selected ? const Color(0xFF3DBE7A) : Colors.black45,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-            ),
-          ),
-        ],
       ),
     );
   }

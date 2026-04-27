@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/screens/addranking_screen.dart';
-import 'package:projeto/screens/chat_screen.dart';
-import 'package:projeto/screens/connections_screen.dart';
-import 'package:projeto/screens/editprofile_screen.dart';
 import 'package:projeto/screens/landing_screen.dart';
-import 'package:projeto/screens/map_screen.dart';
-import 'package:projeto/screens/mytravels_screen.dart';
-import 'package:projeto/screens/preferences_screen.dart';
-import 'package:projeto/screens/profile_screen.dart';
-import 'package:projeto/screens/register_screen.dart';
-import 'package:projeto/screens/traveldetails_screen.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +26,7 @@ class SmartTravelApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF3DBE7A)),
         useMaterial3: true,
       ),
-      home: EditProfile(),
+      home: LandingScreen(),
     );
   }
 }
