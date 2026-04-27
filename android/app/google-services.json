@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "347967088899",
+    "project_id": "smarttravel-b6c68",
+    "storage_bucket": "smarttravel-b6c68.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347967088899:android:3521910b8387b6d77f6136",
+        "android_client_info": {
+          "package_name": "com.example.projeto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk1l3mU9su0eXqvJqsHmfhBLkj_1QDNeg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
