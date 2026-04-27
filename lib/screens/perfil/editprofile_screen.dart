@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../components/navbar.dart';
+import '../home/map_screen.dart';
+import '../travel/mytravels_screen.dart';
+import '../connections/connections_screen.dart';
+import '../perfil/profile_screen.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -14,6 +18,37 @@ class _EditProfileState extends State<EditProfile> {
   final _nameController = TextEditingController(text: 'Karlos Sousa');
   final _emailController = TextEditingController(text: 'sousafulano@gmail.com');
   final _passController = TextEditingController(text: '************');
+
+  void _onItemTapped(int index) {
+    if (index == _currentIndex) return;
+
+    Widget nextScreen;
+    switch (index) {
+      case 0:
+        nextScreen = const MapScreen();
+        break;
+      case 1:
+        nextScreen = const MyTravels();
+        break;
+      case 2:
+        nextScreen = const ConnectionsScreen();
+        break;
+      case 3:
+        nextScreen = const ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => nextScreen,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +127,7 @@ class _EditProfileState extends State<EditProfile> {
 
             CustomNavbar(
               currentIndex: _currentIndex,
-              onItemTapped: (index) => setState(() => _currentIndex = index),
+              onItemTapped: _onItemTapped,
             ),
           ],
         ),

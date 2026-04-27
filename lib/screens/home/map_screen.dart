@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../components/navbar.dart';
+import '../travel/mytravels_screen.dart';
+import '../connections/connections_screen.dart';
+import '../perfil/profile_screen.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -18,6 +21,37 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 
+  void _onItemTapped(int index) {
+    if (index == _currentIndex) return;
+
+    Widget nextScreen;
+    switch (index) {
+      case 0:
+        nextScreen = const MapScreen();
+        break;
+      case 1:
+        nextScreen = const MyTravels();
+        break;
+      case 2:
+        nextScreen = const ConnectionsScreen();
+        break;
+      case 3:
+        nextScreen = const ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => nextScreen,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +63,10 @@ class _MapScreenState extends State<MapScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 20,
                     backgroundColor: Colors.white24,
-                    child: const Icon(Icons.person, color: Colors.white, size: 22),
+                    child: Icon(Icons.person, color: Colors.white, size: 22),
                   ),
                   const Expanded(
                     child: Center(
@@ -141,7 +175,7 @@ class _MapScreenState extends State<MapScreen> {
 
             CustomNavbar(
               currentIndex: _currentIndex,
-              onItemTapped: (index) => setState(() => _currentIndex = index),
+              onItemTapped: _onItemTapped,
             ),
           ],
         ),

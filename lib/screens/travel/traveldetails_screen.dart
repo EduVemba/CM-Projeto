@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../components/navbar.dart';
+import '../home/map_screen.dart';
+import '../travel/mytravels_screen.dart';
+import '../connections/connections_screen.dart';
+import '../perfil/profile_screen.dart';
 
 class TravelDetails extends StatefulWidget {
   const TravelDetails({super.key});
@@ -16,6 +20,37 @@ class _TravelDetailsState extends State<TravelDetails> {
 
   final List<String> _selectedHighlights = ['Gastronomia', 'Arquitetura'];
   final List<String> _allHighlights = ['Gastronomia', 'Arquitetura', 'Cultura', 'Natureza'];
+
+  void _onItemTapped(int index) {
+    if (index == _currentIndex) return;
+
+    Widget nextScreen;
+    switch (index) {
+      case 0:
+        nextScreen = const MapScreen();
+        break;
+      case 1:
+        nextScreen = const MyTravels();
+        break;
+      case 2:
+        nextScreen = const ConnectionsScreen();
+        break;
+      case 3:
+        nextScreen = const ProfileScreen();
+        break;
+      default:
+        return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => nextScreen,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +211,7 @@ class _TravelDetailsState extends State<TravelDetails> {
 
             CustomNavbar(
               currentIndex: _currentIndex,
-              onItemTapped: (index) => setState(() => _currentIndex = index),
+              onItemTapped: _onItemTapped,
             ),
           ],
         ),
