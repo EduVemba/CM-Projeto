@@ -168,7 +168,33 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget _buildButton(String text, Color color) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        if (text == "Cancel"){
+          Navigator.push(context, 
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 800),
+                          pageBuilder: (context, animation, secondaryAnimation) => ProfileScreen(),
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            var slideAnimation = Tween<Offset>(
+                              begin: const Offset(-1, 0),
+                              end: Offset.zero,
+                            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
+
+                            var fadeAnimation = Tween<double>(begin: 0.7, end: 1.0)
+                                .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
+
+                            return FadeTransition(
+                              opacity: fadeAnimation,
+                              child: SlideTransition(
+                                position: slideAnimation,
+                                child: child,
+                              ),
+                            );
+                          },
+                        ),
+                    );
+        }
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF757575), // Tom de cinza dos botões
         foregroundColor: Colors.white,
